@@ -43,6 +43,13 @@
         android:defaultValue="false"
         settings:layout="@layout/pengu_card_sub_mid" />
 
+    <Preference
+        android:key="statusbar_battery_settings"
+        android:title="@string/statusbar_battery_settings_title"
+        android:summary="@string/statusbar_battery_settings_summary"
+        android:fragment="com.android.settings.fuelgauge.StatusBarBatterySettings"
+        settings:layout="@layout/pengu_card_sub_mid" />
+
     <co.aospa.framework.preference.SecureSettingListPreference
         android:key="qs_style_round"
         android:title="@string/qs_style_title"
