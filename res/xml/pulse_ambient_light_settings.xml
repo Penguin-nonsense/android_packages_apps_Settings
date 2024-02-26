@@ -18,9 +18,14 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="pulse_ambient_light_settings"
     android:title="@string/pulse_ambient_light_title"
     settings:keywords="@string/keywords_pulse_ambient_light_display">
+
+    <com.android.settingslib.widget.IllustrationPreference
+        android:key="edge_lights"
+        app:lottie_rawRes="@raw/edge_lights" />
 
     <com.android.settingslib.widget.TopIntroPreference
         android:key="pulse_ambient_light_top_intro"
