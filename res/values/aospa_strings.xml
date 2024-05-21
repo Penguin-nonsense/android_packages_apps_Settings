@@ -420,4 +420,8 @@
     <!-- Idle Manager -->
     <string name="idle_manager_title">Kill background processes</string>
     <string name="idle_manager_summary">Stop all non-essential background processes when the device is idle</string>
+
+    <!-- X-Reality Engine -->
+    <string name="x_reality_engine_mode_title">X-Reality Engine</string>
+    <string name="x_reality_engine_mode_summary">Enable bravia engine inspired display mode</string>
 </resources>
