@@ -41,14 +41,14 @@
         android:title="@string/less_boring_heads_up_title"
         android:summary="@string/less_boring_heads_up_summary"
         android:defaultValue="false"
-        settings:layout="@layout/pengu_card_sub_mid" />
+        settings:layout="@layout/pengu_card_sub_bot" />
 
     <Preference
         android:key="statusbar_battery_settings"
         android:title="@string/statusbar_battery_settings_title"
         android:summary="@string/statusbar_battery_settings_summary"
         android:fragment="com.android.settings.fuelgauge.StatusBarBatterySettings"
-        settings:layout="@layout/pengu_card_sub_mid" />
+        settings:layout="@layout/pengu_card_sub_top" />
 
     <co.aospa.framework.preference.SecureSettingListPreference
         android:key="qs_style_round"
