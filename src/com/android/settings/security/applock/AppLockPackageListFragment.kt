@@ -27,7 +27,6 @@ import android.view.View
 
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
-import androidx.preference.forEach
 
 import com.android.internal.util.aospa.AospaUtils
 
@@ -86,16 +85,19 @@ class AppLockPackageListFragment : DashboardFragment() {
     }
 
     override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
-            val selectedPackages = getSelectedPackages()
-            preferenceScreen?.forEach {
-                if (it is PrimarySwitchPreference) {
-                    it.isChecked = selectedPackages.contains(it.key)
+    super.onResume()
+    lifecycleScope.launch {
+        val selectedPackages = getSelectedPackages()
+        preferenceScreen?.let { screen ->
+            for (i in 0 until screen.preferenceCount) {
+                val preference = screen.getPreference(i)
+                if (preference is PrimarySwitchPreference) {
+                    preference.isChecked = selectedPackages.contains(preference.key)
                 }
             }
         }
     }
+}
 
     private suspend fun getSelectedPackages(): Set<String> {
         return withContext(Dispatchers.IO) {
