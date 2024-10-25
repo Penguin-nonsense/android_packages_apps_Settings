@@ -48,7 +48,9 @@ import com.android.internal.logging.nano.MetricsProto;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
+import com.android.settingslib.widget.FooterPreference;
 
+import org.derpfest.support.preferences.AppListPreference;
 import org.derpfest.support.preferences.PackageListAdapter;
 import org.derpfest.support.preferences.PackageListAdapter.PackageItem;
 
@@ -78,10 +80,11 @@ public class SensorBlock extends SettingsPreferenceFragment
         // Get launch-able applications
         addPreferencesFromResource(R.xml.sensor_block_settings);
 
-        mFooterPreferenceMixin.createFooterPreference().setTitle(R.string.add_sensor_block_package_summary);
+        getPreferenceScreen().addPreference(new FooterPreference.Builder(getActivity()).setTitle(
+                R.string.add_sensor_block_package_summary).build());
 
         final PreferenceScreen prefScreen = getPreferenceScreen();
-        
+
         mPackageManager = getPackageManager();
         mPackageAdapter = new PackageListAdapter(getActivity());
 
@@ -111,7 +114,7 @@ public class SensorBlock extends SettingsPreferenceFragment
     @Override
     public int getDialogMetricsCategory(int dialogId) {
         if (dialogId == DIALOG_BLOCKED_APPS) {
-            return MetricsProto.MetricsEvent.DERP;
+            return MetricsProto.MetricsEvent.PENGUIN;
         }
         return 0;
     }
@@ -252,7 +255,7 @@ public class SensorBlock extends SettingsPreferenceFragment
         PackageInfo info = mPackageManager.getPackageInfo(pkg.name,
                 PackageManager.GET_META_DATA);
         Preference pref =
-                new Preference(getActivity());
+                new AppListPreference(getActivity());
 
         pref.setKey(pkg.name);
         pref.setTitle(info.applicationInfo.loadLabel(mPackageManager));
