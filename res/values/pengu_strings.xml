@@ -49,4 +49,8 @@
     <string name="dialog_delete_title">Delete</string>
     <string name="dialog_delete_message">Remove selected item?</string>
 
+    <!-- QTI BoostFramework -->
+    <string name="qti_boost_framework_title">QTI boost framework</string>
+    <string name="qti_boost_framework_summary">Apply CPU/GPU boost on UI tasks to reduce jank. Reboot is needed</string>
+
 </resources>
