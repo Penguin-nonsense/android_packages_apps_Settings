@@ -79,11 +79,11 @@
         android:summaryOff="@string/qs_show_battery_estimate_summary_off"
         android:defaultValue="true" />
 
-    <org.derpfest.support.preferences.SystemSettingSwitchPreference
-        android:key="sensor_block"
+    <Preference
+        android:key="sensor_block_settings"
         android:title="@string/sensor_block_title"
         android:summary="@string/sensor_block_summary"
-        android:defaultValue="false" />
+        android:fragment="com.android.settings.applications.sensors.SensorBlock"/>
 
     <com.android.settingslib.widget.FooterPreference
         android:key="power_usage_footer"
