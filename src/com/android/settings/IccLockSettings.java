@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.PixelFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowInsets.Type;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -51,8 +53,8 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
@@ -120,6 +122,9 @@ public class IccLockSettings extends SettingsPreferenceFragment
     private TabHost mTabHost;
     private TabWidget mTabWidget;
     private ListView mListView;
+    private View mRootView;
+    private boolean mKeyboardVisible = false;
+    private boolean mNeedWaitKeyguard = false;
 
     private ProxySubscriptionManager mProxySubscriptionMgr;
 
@@ -133,6 +138,7 @@ public class IccLockSettings extends SettingsPreferenceFragment
 
     // @see android.widget.Toast$TN
     private static final long LONG_DURATION_TIMEOUT = 7000;
+    private static final long DIALOG_POP_UP_DELAY_MS = 100L;
 
     private int mSlotId = -1;
     private int mSubId;
@@ -338,11 +344,41 @@ public class IccLockSettings extends SettingsPreferenceFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRootView = this.getActivity().getWindow().getDecorView().getRootView();
         updatePreferences();
     }
 
-    private void updatePreferences() {
+    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener =
+        new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect appFrame = new Rect();
+                mRootView.getWindowVisibleDisplayFrame(appFrame);
+                int heightDiff = mRootView.getHeight() -
+                    (appFrame.bottom - appFrame.top);
+                // keyboard height is larger than screenheight / 5
+                if (heightDiff > mRootView.getHeight() / 5) {
+                    if (!mKeyboardVisible) {
+                        mKeyboardVisible = true;
+                    }
+                } else {
+                    if (mKeyboardVisible) {
+                        mKeyboardVisible = false;
+                        if (mNeedWaitKeyguard) {
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showPinDialog();
+                                    mNeedWaitKeyguard = false;
+                                }
+                            }, DIALOG_POP_UP_DELAY_MS);
+                        }
+                    }
+                }
+            }
+        };
 
+    private void updatePreferences() {
         final SubscriptionInfo sir = getVisibleSubscriptionInfoForSimSlotIndex(mSlotId);
         final int subId = (sir != null) ? sir.getSubscriptionId()
                 : SubscriptionManager.INVALID_SUBSCRIPTION_ID;
@@ -385,6 +421,7 @@ public class IccLockSettings extends SettingsPreferenceFragment
         // which will call updatePreferences().
         final IntentFilter filter = new IntentFilter(Intent.ACTION_SIM_STATE_CHANGED);
         getContext().registerReceiver(mSimStateReceiver, filter);
+        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
 
         if (mDialogState != OFF_MODE) {
             showPinDialog();
@@ -398,6 +435,7 @@ public class IccLockSettings extends SettingsPreferenceFragment
     public void onPause() {
         super.onPause();
         getContext().unregisterReceiver(mSimStateReceiver);
+        mRootView.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
     }
 
     @Override
@@ -444,12 +482,16 @@ public class IccLockSettings extends SettingsPreferenceFragment
             return;
         }
         setDialogValues();
-
-        mPinDialog.showPinDialog();
-
-        final EditText editText = mPinDialog.getEditText();
-        if (!TextUtils.isEmpty(mPin) && editText != null) {
-            editText.setSelection(mPin.length());
+        if (mKeyboardVisible) {
+            //wait keyboard dismiss and then showPinDialog, to fix
+            //keyboard being overlap in low performance device
+            mNeedWaitKeyguard = true;
+        } else {
+            mPinDialog.showPinDialog();
+            final EditText editText = mPinDialog.getEditText();
+            if (!TextUtils.isEmpty(mPin) && editText != null) {
+                editText.setSelection(mPin.length());
+            }
         }
     }
 
