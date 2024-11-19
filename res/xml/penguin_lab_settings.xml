@@ -76,12 +76,6 @@
         android:defaultValue="0"
         settings:layout="@layout/pengu_card_sub_bot" />
 
-    <co.aospa.framework.preference.SecureSettingSwitchPreference
-        android:key="qti_boost_framework"
-        android:title="@string/qti_boost_framework_title"
-        android:summary="@string/qti_boost_framework_summary"
-        android:defaultValue="false" />
-
     <!-- Unlock FPS for specific games -->
     <co.aospa.framework.preference.SystemSettingSwitchPreference
         android:key="persist.sys.pixelprops.games"

@@ -26,7 +26,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.os.SystemProperties;
-import androidx.preference.SwitchPreference;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -56,13 +55,6 @@ implements
         getActivity().getContentResolver();
         addPreferencesFromResource(R.xml.penguin_lab_settings); final Resources res
         = getResources();
-        SwitchPreference qti_boost_framework = findPreference("qti_boost_framework");
-        qti_boost_framework.setChecked(SystemProperties.getBoolean("persist.qti.boost_framework.enabled", true));
-        qti_boost_framework.setOnPreferenceChangeListener((preference, newValue) -> {
-            boolean isEnabled = (Boolean) newValue;
-            SystemProperties.set("persist.qti.boost_framework.enabled", isEnabled ? "true" : "false");
-            return true;
-        });
     }
 
     @Override public boolean onPreferenceChange(Preference preference, Object
