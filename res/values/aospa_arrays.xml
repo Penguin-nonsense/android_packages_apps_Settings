@@ -242,7 +242,7 @@
         <item>com.android.settings</item>
         <item>com.android.systemui</item>
         <item>com.android.shell</item>
-    
+        </string-array>
     <!-- Battery percent -->
     <string-array name="battery_percent_entries">
         <item>@string/status_bar_battery_percentage_default</item>
