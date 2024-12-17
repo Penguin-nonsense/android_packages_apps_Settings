@@ -152,11 +152,6 @@
             android:summary="@string/force_high_refresh_rate_desc"
             settings:controller="com.android.settings.display.ForcePeakRefreshRatePreferenceController"/>
 
-        <SwitchPreference
-            android:key="show_refresh_rate"
-            android:title="@string/show_refresh_rate"
-            android:summary="@string/show_refresh_rate_summary" />
-
     </PreferenceCategory>
     -->
 
@@ -199,6 +194,11 @@
             android:fragment="com.android.settings.display.RefreshRateSettings"
             settings:keywords="@string/keywords_refresh_rate"
             settings:controller="com.android.settings.display.RefreshRatePreferenceController"/>
+
+         <SwitchPreference
+            android:key="show_refresh_rate"
+            android:title="@string/show_refresh_rate"
+            android:summary="@string/show_refresh_rate_summary" />
 
         <com.android.settings.display.DcDimmingPreference
             android:key="dc_dimming"
