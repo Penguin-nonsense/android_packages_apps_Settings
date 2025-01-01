@@ -27,6 +27,14 @@
         android:fragment="com.android.settings.dashboard.AODSchedule"
         settings:layout="@layout/pengu_card_sub_top" />
 
+    <Preference
+        android:key="network_traffic_state"
+        android:title="@string/network_traffic_state_title"
+        android:summary="@string/network_traffic_state_summary"
+        android:fragment="com.android.settings.network.NetworkTrafficSettings"
+        android:defaultValue="false"
+        settings:layout="@layout/pengu_card_sub_mid" />
+
     <!-- Heads up -->
     <co.aospa.framework.preference.GlobalSettingSwitchPreference
         android:key="heads_up_notifications_enabled"
