@@ -75,7 +75,7 @@ public class pif_spoofs extends SettingsPreferenceFragment {
         });
 
         mUpdateJsonButton.setOnPreferenceClickListener(preference -> {
-            updatePropertiesFromUrl("https://raw.githubusercontent.com/Los-Ext/Pif.json/refs/heads/main/pif.json");
+            updatePropertiesFromUrl("https://raw.githubusercontent.com/RisingTechOSS/risingOS_wiki/refs/heads/fifteen/spoofing/PlayIntergrity/pif.json");
             return true;
         });
 
