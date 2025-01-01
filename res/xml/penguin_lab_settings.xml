@@ -92,7 +92,7 @@
         settings:layout="@layout/pengu_card_sub_bot" />
 
     <!-- Unlock FPS for specific games -->
-    <co.aospa.framework.preference.SystemSettingSwitchPreference
+    <co.aospa.framework.preference.SystemPropertySwitchPreference
         android:key="persist.sys.pixelprops.games"
         android:title="@string/use_games_spoof_title"
         android:summary="@string/use_games_spoof_summary"
